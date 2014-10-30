@@ -1,0 +1,55 @@
+{
+  "name": "skype-history-server",
+  "version": "0.0.1",
+  "description": "Skype history server",
+  "keywords": [
+    "locomotivejs",
+    "app",
+    "skype"
+  ],
+  "licence": "MIT",
+  "author": "Stanisav Yadykin <tosick@tosick.net>",
+  "repository": "https://github.com/syadykin/skype-history-server.git",
+  "dependencies": {
+    "angular": "~1.2.23",
+    "angular-bootstrap": "~0.11.0",
+    "async": "0.9.x",
+    "bcrypt": "~0.8.0",
+    "bootable": "0.2.x",
+    "bootable-environment": "0.2.x",
+    "bootstrap": "~3.2.0",
+    "connect-flash": "~0.1.1",
+    "connect-powered-by": "0.1.x",
+    "consolidate": "git+https://github.com/spcoder/consolidate.js.git#17dd0ac1b107468845802996236d10bdab26a521",
+    "express": "3.x.x",
+    "jquery": "~2.1.1",
+    "less": "~1.7.3",
+    "locomotive": "0.4.x",
+    "locomotive-http-socketio-server": "^0.1.1",
+    "locomotive-mongoose": "0.1.x",
+    "method-override": "~2.1.3",
+    "mongoose": "~3.8.14",
+    "passport": "~0.2.0",
+    "passport-local": "~1.0.0",
+    "requireindex": "~0.1.8",
+    "session-mongoose": "~0.5.1",
+    "swig": "1.4.x",
+    "underscore": "1.6.x"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "uglifyify": "~2.5.0",
+    "browserify": "~5.11.0",
+    "grunt-browserify": "~3.0.1",
+    "grunt-contrib-less": "~0.11.4",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-jshint": "~0.10.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=0.10.3 <0.12"
+  },
+  "private": false
+}
