@@ -8,7 +8,7 @@
   <!-- Tab panes -->
   <ul class="nav nav-pills">
     <% for y in years %>
-    <li<% if year == y %> class="active"<% endif %>><a href="< %= roomYearPath(room.chatname, y) % >"><%= y %></a></li>
+    <li<% if year == y %> class="active"<% endif %>><a href="< %= roomYearPath(room.chatname|url_encode, y) % >"><%= y %></a></li>
     <% endfor %>
   </ul>
 
