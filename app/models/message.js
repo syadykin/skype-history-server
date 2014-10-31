@@ -7,6 +7,8 @@ var schema = new mongoose.Schema({
     from_dispname:    { type: String },
     guid:             { type: String, index: { unique: true }},
     timestamp:        { type: Number },
+    date:             { type: String },
+    time:             { type: String },
     type:             { type: Number },
     body_xml:         { type: String },
     chatmsg_type:     { type: Number },

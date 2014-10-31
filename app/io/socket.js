@@ -13,6 +13,11 @@ module.exports = function() {
           if (data[k] === null) delete data[k];
         });
 
+        var date = new Date(data.timestamp * 1000).toJSON();
+
+        data.date = date.substring(0, 10);
+        data.time = date.substring(11, 19);
+
         Message.update({guid: data.guid}, data, {upsert: true}, function(err) {
           if (err) console.log(err);
         });
