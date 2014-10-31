@@ -1,17 +1,14 @@
 var locomotive = require('locomotive'),
     Controller = locomotive.Controller,
-    async = require('async'),
     m = require('mongoose'),
-    callOn = require('../../lib/utils').callOn,
 
-    User = m.models.User;
+    User = m.models.User,
+    ctrl = new Controller();
 
-var pagesController = new Controller();
-
-pagesController.main = function() {
+ctrl.main = function() {
     var self = this;
     this.title = 'Locomotive';
     this.render();
 };
 
-module.exports = pagesController;
+module.exports = ctrl;

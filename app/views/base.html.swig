@@ -12,6 +12,7 @@
     <nav class="navbar navbar-default">
       <div class="navbar-right" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
+          <li><a href="<%= roomsPath() %>">Chat rooms</a></li>
           <% if user %>
             <li><a href="<%= signoutPath() %>">Logout</a></li>
           <% else %>

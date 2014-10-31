@@ -1,19 +1,18 @@
 var locomotive = require('locomotive'),
     Controller = locomotive.Controller,
-    User = require('../models/user');
+    User = require('../models/user'),
+    ctrl = new Controller();
 
-var AuthController = new Controller();
-
-AuthController.login = function() {
+ctrl.login = function() {
     this.render();
 };
 
-AuthController.logout = function() {
+ctrl.logout = function() {
     this.req.logOut();
     this.res.redirect('/');
 };
 
-AuthController.signup = function() {
+ctrl.signup = function() {
     if (this.req.method === 'GET') {
         this.render();
     } else {
@@ -28,4 +27,4 @@ AuthController.signup = function() {
     }
 };
 
-module.exports = AuthController;
+module.exports = ctrl;
