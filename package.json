@@ -22,6 +22,7 @@
     "connect-powered-by": "0.1.x",
     "consolidate": "git+https://github.com/spcoder/consolidate.js.git#17dd0ac1b107468845802996236d10bdab26a521",
     "express": "3.x.x",
+    "http-errors": "^1.2.7",
     "jquery": "~2.1.1",
     "less": "~1.7.3",
     "locomotive": "0.4.x",

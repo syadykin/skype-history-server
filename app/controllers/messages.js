@@ -1,4 +1,5 @@
 var locomotive = require('locomotive'),
+    error = require('http-errors'),
     Controller = locomotive.Controller,
     async = require('async'),
     m = require('mongoose'),
@@ -10,98 +11,99 @@ var locomotive = require('locomotive'),
 
 ctrl.rooms = function() {
   var that = this;
-  async.parallel(
-    {
-      active: function(cb) {
-        Message.find().distinct('chatname', cb);
-      },
-      registered: function(cb) {
-        Chatroom.find(function(err, data) {
-          if (err) return cb(err);
-          var map = {};
-          data.forEach(function(r) { map[r.chatname] = r.displayname; });
-          cb(null, map);
-        });
-      }
-    },
-    function(err, data) {
-      var active = data.active,
-          map = data.registered;
-
-      that.rooms = active
-        .filter(function(r) { return map[r]; })
-        .map(function(r) { return { chatname: r, displayname: map[r] }; });
-
-      that.render();
-    }
-  );
+  Chatroom.find(function(err, rooms) {
+    that.rooms = rooms;
+    that.render();
+  });
 };
 
 ctrl.room = function() {
-  var that = this;
-  async.parallel(
-    {
-      room: function(cb) {
-        Chatroom.findOne({chatname: that.param('chatname')}, cb);
-      },
-      years: function(cb) {
-        Message.aggregate(
-          {$project: {id: 1, year: { $substr: ["$date", 0, 4] }}},
-          {$group: {_id: '$year'}},
-          function(err, years) {
-            cb(err, (years || []).map(function(r) { return r._id; }));
-          }
-        );
-      },
-      days: function(cb) {
-        var year = that.year = (that.param('year') || new Date().getFullYear()).toString();
-        Message.aggregate(
-          {$project: {id: 1, year: { $substr: ["$date", 0, 4] }, date: { $substr: ["$date", 5, 5] }}},
-          {$match: {year: year}},
-          {$group: {_id: '$date'}},
-          function(err, days) {
-            cb(err, (days || []).map(function(r) { return r._id; }));
-          }
-        );
-      }
+  var that = this,
+      displayname = this.param('displayname');
+      year = that.year = (that.param('year') || new Date().getFullYear()).toString();
+  async.waterfall([
+    function getRoom(cb) {
+      Chatroom.findOne({displayname: displayname}, cb);
     },
-    function(err, res) {
-      that.room = res.room;
-      that.years = res.years;
-      that.days = {};
-      that.date = new Date();
-      that.date.setFullYear(parseInt(that.year, 10));
-      res.days.forEach(function(d) {
-        var date = d.split('-'),
-            month = date.shift(),
-            day = date.shift();
+    function(room, cb) {
+      if (!room) return cb(error(404));
 
-        if (!that.days[month]) that.days[month] = {};
-        that.days[month][day] = true;
+      async.parallel({
+        years: function(cb) {
+          Message.aggregate(
+            {$project: {id: 1, chatname: 1, year: { $substr: ["$date", 0, 4] }}},
+            {$match: {chatname: room.chatname}},
+            {$group: {_id: '$year'}},
+            function(err, years) {
+              cb(err, (years || []).map(function(r) { return r._id; }));
+            }
+          );
+        },
+        days: function(cb) {
+          Message.aggregate(
+            {$project: {chatname: 1, year: { $substr: ["$date", 0, 4] }, date: { $substr: ["$date", 5, 5] }}},
+            {$match: {year: year, chatname: room.chatname}},
+            {$group: {_id: '$date', count: {$sum: 1}}},
+            function(err, days) {
+              cb(err, (days || []).map(function(r) { return {day: r._id, count: r.count}; }));
+            }
+          );
+        }
+      }, function(err, res) {
+        cb(err, room, res.years, res.days);
       });
-
-      that.render();
     }
-  );
+  ], function(err, room, years, days) {
+    if (err) return that.error(err);
+
+    that.room = room;
+    that.years = years;
+    that.days = {};
+    that.date = new Date();
+    that.date.setFullYear(+year);
+
+    days.forEach(function(d) {
+      var date = d.day.split('-'),
+          month = date.shift(),
+          day = date.shift();
+
+      if (!that.days[month]) that.days[month] = {};
+      that.days[month][day] = d.count;
+    });
+
+    that.render();
+  });
+};
+
+ctrl.roomYear = function() {
+  this.invoke('messages#room');
 };
 
 ctrl.messages = function() {
   var that = this,
-      chatname = this.param('chatname'),
-      date = new Date(parseInt(this.param('year'), 10), parseInt(this.param('month') - 1, 10),
-                parseInt(this.param('day'), 10) + 1).toJSON().substring(0, 10);
-  async.parallel({
-    room: function(cb) {
-      Chatroom.findOne({chatname: chatname}, cb);
+      displayname = this.param('displayname'),
+      year = this.year = +this.param('year'),
+      month = this.month = +this.param('month'),
+      day = this.day = +this.param('day'),
+      date = new Date(year, month - 1, day + 1).toJSON().substring(0, 10);
+
+  async.waterfall([
+    function(cb) {
+      Chatroom.findOne({displayname: displayname}, function(err, room) {
+        if (err || !room) return cb(err || error(404));
+        cb(null, room);
+      });
     },
-    messages: function(cb) {
-      Message.find({chatname: chatname, date: date}).sort({id: 1}).exec(cb);
+    function(room, cb) {
+      Message.find({chatname: room.chatname, date: date})
+        .sort({id: 1}).exec(function(err, messages) {
+          if (err) return cb(err);
+          cb(null, room, messages);
+        });
     }
-  }, function(err, res) {
-    extend(that, res);
-    that.year = that.param('year');
-    that.month = that.param('month');
-    that.day = that.param('day');
+  ], function(err, room, messages) {
+    that.room = room;
+    that.messages = messages;
     that.render();
   });
 };

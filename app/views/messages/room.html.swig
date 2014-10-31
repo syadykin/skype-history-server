@@ -8,7 +8,7 @@
   <!-- Tab panes -->
   <ul class="nav nav-pills">
     <% for y in years %>
-    <li<% if year == y %> class="active"<% endif %>><a href="<%= roomYearPath(room.chatname|url_encode, y) %>"><%= y %></a></li>
+    <li<% if year == y %> class="active"<% endif %>><a href="<%= roomYearPath(room.displayname|url_encode, y) %>"><%= y %></a></li>
     <% endfor %>
   </ul>
 
@@ -24,7 +24,7 @@
           <% for day in week %>
           <td<% if day.future %> class="o"<% endif %>>
           <% if days[month] && days[month][day.day] %>
-          <a href="<%= messagesPath(room.chatname|url_encode, year, month, day.day) %>"><%= day.day %></a>
+          <a href="<%= messagesPath(room.displayname|url_encode, year, month, day.day) %>" title="Messages: <%= days[month][day.day] %>"><%= day.day %></a>
           <% else %>
           <%= day.day %>
           <% endif %>

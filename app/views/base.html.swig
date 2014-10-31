@@ -16,7 +16,6 @@
           <% if user %>
             <li><a href="<%= signoutPath() %>">Logout</a></li>
           <% else %>
-            <li><a href="<%= signupPath() %>">Sign up</a></li>
             <li><a href="<%= signinPath() %>">Sign in</a></li>
           <% endif %>
         </ul>

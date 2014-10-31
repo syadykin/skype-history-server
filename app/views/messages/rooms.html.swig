@@ -7,7 +7,7 @@
   <ul>
     <% for room in rooms %>
     <li>
-      <a href="<%= roomPath(room.chatname|url_encode) %>"><%= room.displayname %></a>
+      <a href="<%= roomPath(room.displayname|url_encode) %>"><%= room.displayname %></a>
     </li>
     <% endfor %>
   </ul>
