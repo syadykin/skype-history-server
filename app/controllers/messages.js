@@ -87,15 +87,15 @@ ctrl.room = function() {
 
 ctrl.messages = function() {
   var that = this,
+      chatname = this.param('chatname'),
       date = new Date(parseInt(this.param('year'), 10), parseInt(this.param('month') - 1, 10),
                 parseInt(this.param('day'), 10) + 1).toJSON().substring(0, 10);
-      console.log(date);
   async.parallel({
     room: function(cb) {
-      Chatroom.findOne({chatname: that.param('chatname')}, cb);
+      Chatroom.findOne({chatname: chatname}, cb);
     },
     messages: function(cb) {
-      Message.find({date: date}).sort({id: 1}).exec(cb);
+      Message.find({chatname: chatname, date: date}).sort({id: 1}).exec(cb);
     }
   }, function(err, res) {
     extend(that, res);
