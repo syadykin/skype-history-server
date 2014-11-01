@@ -1,9 +1,9 @@
 <% extends '../base.html.swig' %>
 
-<% block title %>Room «<%= room.displayname %>» <%= year %>/<%= month %>/<%= day %><% endblock %>
+<% block title %>Room «<%= room.displayname %>» <%= date|date('Y/m/d') %><% endblock %>
 
 <% block content %>
-  <h1>Room «<%= room.displayname %>» <%= year %>/<%= month %>/<%= day %></h1>
+  <h1>Room «<%= room.displayname %>» <%= date|date('Y/m/d') %></h1>
 
   <ul class="messages">
     <% for msg in messages %>

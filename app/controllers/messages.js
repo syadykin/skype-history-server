@@ -64,8 +64,8 @@ ctrl.room = function() {
 
     days.forEach(function(d) {
       var date = d.day.split('-'),
-          month = date.shift(),
-          day = date.shift();
+          month = +date.shift(),
+          day = +date.shift();
 
       if (!that.days[month]) that.days[month] = {};
       that.days[month][day] = d.count;
@@ -81,11 +81,10 @@ ctrl.roomYear = function() {
 
 ctrl.messages = function() {
   var that = this,
-      displayname = this.param('displayname'),
-      year = this.year = +this.param('year'),
-      month = this.month = +this.param('month'),
-      day = this.day = +this.param('day'),
-      date = new Date(year, month - 1, day + 1).toJSON().substring(0, 10);
+      displayname = this.param('displayname');
+  this.date = new Date(+this.param('year'),
+                       +this.param('month') - 1,
+                       +this.param('day') + 1);
 
   async.waterfall([
     function(cb) {
@@ -95,7 +94,7 @@ ctrl.messages = function() {
       });
     },
     function(room, cb) {
-      Message.find({chatname: room.chatname, date: date})
+      Message.find({chatname: room.chatname, date: that.date.toJSON().substring(0, 10)})
         .sort({id: 1}).exec(function(err, messages) {
           if (err) return cb(err);
           cb(null, room, messages);
