@@ -128,7 +128,7 @@ grunt.registerTask('post-update', function() {
   async.waterfall([
     grunt.shipit.remote.bind(grunt.shipit, format('cd %s && npm install && npm rebuild', grunt.shipit.releasePath)),
     grunt.shipit.remote.bind(grunt.shipit, format('sudo mv %s/init /etc/init/%s.conf', grunt.shipit.releasePath, pkg.name)),
-    grunt.shipit.remote.bind(grunt.shipit, format('cd %s && grunt browserify:vendor browserify:app less', grunt.shipit.releasePath))
+    grunt.shipit.remote.bind(grunt.shipit, format('cd %s && grunt', grunt.shipit.releasePath))
   ], this.async());
 });
 
