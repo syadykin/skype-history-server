@@ -1,18 +1,14 @@
-var passport = require('../lib/passport');
-
 module.exports = function routes() {
+    this.match('users', 'api#users', { via: ['get', 'post'] });
 
-    this.match('login', 'auth#login', { as: 'signin' });
-    this.match('login', passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/login',
-        failureFlash: true
-    }), { via: 'post' });
-    this.match('logout', 'auth#logout', { as: 'signout' });
+    this.match('t/:path', 'pages#t');
 
-    this.match('room/:displayname/:year/:month/:day', 'messages#messages', { as: 'messages' });
-    this.match('room/:displayname/:year', 'messages#roomYear', { as: 'roomYear' });
-    this.match('room/:displayname', 'messages#room', { as: 'room' });
+    this.match('search/:query/:room', 'api#search');
+    this.match('search/:query', 'api#search');
 
-    this.root('messages#rooms', { as: 'rooms' });
+    this.match('rooms/:room/:year/:month/:day', 'api#messages');
+    this.match('rooms/:room', 'api#room');
+    this.match('rooms', 'api#rooms');
+
+    this.root('pages#root', { as: 'root' });
 };

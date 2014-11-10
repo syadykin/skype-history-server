@@ -1,0 +1,17 @@
+<table class="date-grid">
+  <tr>
+    <th>Mo</th>
+    <th>Tu</th>
+    <th>We</th>
+    <th>Th</th>
+    <th>Fr</th>
+    <th>Sa</th>
+    <th>Su</th>
+  </tr>
+  <tr ng-repeat="week in cal">
+    <td ng-repeat="day in week" ng-class="{o: day.o, c: day.c, s: day.s}">
+      <a ng-show="day.l" href="" ng-click="select(day.d)" title="{{ day.t }}">{{ day.d }}</a>
+      <span ng-show="!day.l">{{ day.d }}</span>
+    </td>
+  </tr>
+</table>

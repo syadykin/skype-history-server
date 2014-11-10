@@ -1,0 +1,78 @@
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavCtrl">
+  <div class="container-fluid">
+    <div class="navbar-header"><a class="navbar-brand" ui-sref="index">Skype History</a></div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown" ng-show="rooms.$resolved" is-open="menu.room">
+          <a href="" class="dropdown-toggle">
+            <span ng-hide="room">Choose room</span>
+            <span ng-show="room">{{ room.displayname }}</span>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="r in rooms">
+              <a href="" ng-click="setRoom(r)">
+                <span class="pull-right glyphicon glyphicon-ok" ng-show="r.chatname === room.chatname"></span>
+                {{ r.displayname }}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown" ng-show="room.years" is-open="menu.year">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown">
+            <span ng-hide="room.year">Year</span>
+            <span ng-show="room.year">{{ current | date:'yyyy' }}</span>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="y in room.years">
+              <a href="" ng-click="setYear(y)">
+                <span class="pull-right glyphicon glyphicon-ok" ng-show="y === room.year"></span>
+                {{ y }}
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="dropdown" ng-show="room.months" is-open="menu.month">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown">
+            <span ng-hide="room.month">Month</span>
+            <span ng-show="room.month">{{ current|date:'MMMM' }}</span>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="m in range(1, 12)" ng-class="!room.months[m] && 'disabled'">
+              <a href="" ng-click="setMonth(m)">
+                <span class="pull-right glyphicon glyphicon-ok" ng-show="m == room.month"></span>
+                {{ m|monthName }}
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="dropdown" ng-show="room.month" is-open="menu.day">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown">
+            <span ng-hide="room.day">Day</span>
+            <span ng-show="room.day">{{ room.day }}</span>
+            <span class="caret"></span>
+          </a>
+          <div class="dropdown-menu" role="menu">
+            <day-grid grid-date="current" grid-current="room.day" grid-select="setDay" grid-exists="room.months[room.month]"></day-grid>
+          </div>
+        </li>
+      </ul>
+
+      <form class="navbar-form navbar-left" role="search" ng-submit="search()">
+        <div class="form-group">
+          <input type="text" class="form-control" ng-model="query" placeholder="Query">
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a ui-sref="logout" ng-show="user.email">Logout</a></li>
+        <li><a ui-sref="login" ng-hide="user.email">Sign in</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

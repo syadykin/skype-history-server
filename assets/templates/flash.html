@@ -1,0 +1,6 @@
+<div id="flash" class="container" ng-controller="FlashCtrl">
+  <div class="alert clearfix" ng-class="{'alert-danger': type === 'error', 'alert-success': type === 'success'}" ng-show="message">
+    <button class="btn btn-primary pull-right" ng-click="dismiss()">Dismiss</button>
+    <span>{{ message }}</span>
+  </div>
+</div>

@@ -4,29 +4,25 @@ var grunt = require('grunt'),
     format = require('util').format,
     extend = require('util')._extend,
     pkg = require('./package.json'),
-    deploy = {}, env,
-    depMapper = function(s) { return pkg.deploy[env].user + '@' + s; };
+    external = Object.keys(pkg.browser);
 
 grunt.loadNpmTasks('grunt-contrib-jshint');
 grunt.loadNpmTasks('grunt-contrib-less');
 grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-browserify');
 grunt.loadNpmTasks('grunt-shipit');
-
-for (var env in pkg.deploy) {
-  deploy[env] = {servers: pkg.deploy[env].servers.map(depMapper)};
-}
+grunt.loadNpmTasks('grunt-angular-templates');
 
 grunt.initConfig({
   shipit: extend({
     options: {
-      workspace: '/tmp/skype-history-server',
+      workspace: '/tmp/' + pkg.name,
       deployTo: '/var/skype/server',
       repositoryUrl: pkg.repository,
       ignores: ['.git', '.gitignore', 'README.md', 'node_modules', 'init.tmpl'],
       keepReleases: 5
     },
-  }, deploy),
+  }, pkg.deploy),
   jshint: {
     options: {
       globals: [ 'jQuery' ]
@@ -61,20 +57,20 @@ grunt.initConfig({
   },
   browserify: {
     vendor: {
-      src: [],
+      src: ['assets/js/vendor.js'],
       dest: 'public/assets/vendor.js',
       options: {
-        transform: ['uglifyify'],
-        require: ['jquery', 'angular', 'angular-bootstrap']
+        transform: ['browserify-shim', 'uglifyify'],
+        require: external
       }
     },
 
     app: {
-      src: ['assets/js/*.js'],
+      src: ['assets/js/app.js', 'tmp/templates.js'],
       dest: 'public/assets/app.js',
       options: {
         transform: ['uglifyify'],
-        external: ['jquery', 'angular', 'angular-bootstrap'],
+        external: external
       }
     },
 
@@ -82,8 +78,8 @@ grunt.initConfig({
       src: ['assets/js/*.js'],
       dest: 'public/assets/app.js',
       options: {
-        external: ['jquery', 'angular', 'angular-bootstrap'],
-        watch: true,
+        external: external,
+        watch: true
       }
     }
   },
@@ -92,6 +88,26 @@ grunt.initConfig({
     less: {
       files: ['assets/css/*.less', 'assets/css/*.css'],
       tasks: ['less:development']
+    }
+  },
+  ngtemplates: {
+    app: {
+      src: '**.html',
+      dest: 'tmp/templates.js',
+      cwd: 'assets/templates',
+      options: {
+        prefix: 't/',
+        htmlmin: {
+          collapseBooleanAttributes:      true,
+          collapseWhitespace:             true,
+          removeAttributeQuotes:          true,
+          removeComments:                 true,
+          removeEmptyAttributes:          true,
+          removeRedundantAttributes:      true,
+          removeScriptTypeAttributes:     true,
+          removeStyleLinkTypeAttributes:  true
+        }
+      }
     }
   }
 });
@@ -135,4 +151,4 @@ grunt.registerTask('watch', [
   'browserify:watch',
   'watchs:less'
 ]);
-grunt.registerTask('default', ['browserify:vendor', 'browserify:app', 'less:production']);
+grunt.registerTask('default', ['browserify:vendor', 'ngtemplates:app', 'browserify:app', 'less:production']);

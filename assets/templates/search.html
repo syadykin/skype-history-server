@@ -1,0 +1,11 @@
+<h1>Search results for «{{ query }}» (found {{ hits }})</h1>
+<div ng-repeat="(r, matches) in results">
+    <h2>Room «{{ r }}»</h2>
+    <ul class="search">
+      <li ng-repeat="msg in matches">
+        <h4><a href="" ng-click="go(r, msg.date)" title="View thread">{{ msg.author }} at {{ msg.date }} {{ msg.time }}</a> <small>(score {{ msg.score }})</small></h4>
+        <div ng-bind-html="msg.content|beautify|highlight:words"></div>
+      </li>
+    </ul>
+</div>
+

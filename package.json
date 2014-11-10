@@ -11,19 +11,18 @@
   "author": "Stanisav Yadykin <tosick@tosick.net>",
   "repository": "https://github.com/syadykin/skype-history-server.git",
   "dependencies": {
-    "angular": "~1.2.23",
-    "angular-bootstrap": "~0.11.0",
     "async": "0.9.x",
     "bcrypt": "~0.8.0",
     "bootable": "0.2.x",
     "bootable-environment": "0.2.x",
     "bootstrap": "~3.2.0",
+    "browserify-shim": "^3.8.0",
     "connect-flash": "~0.1.1",
     "connect-powered-by": "0.1.x",
     "consolidate": "git+https://github.com/spcoder/consolidate.js.git#17dd0ac1b107468845802996236d10bdab26a521",
     "express": "3.x.x",
+    "extend": "^2.0.0",
     "http-errors": "^1.2.7",
-    "jquery": "~2.1.1",
     "less": "~1.7.3",
     "locomotive": "0.4.x",
     "locomotive-http-socketio-server": "^0.1.1",
@@ -34,12 +33,14 @@
     "passport-local": "~1.0.0",
     "requireindex": "~0.1.8",
     "session-mongoose": "~0.5.1",
+    "sphinxapi": "^1.1.1",
     "swig": "1.4.x",
     "underscore": "1.6.x"
   },
   "devDependencies": {
     "browserify": "~5.11.0",
     "grunt": "^0.4.5",
+    "grunt-angular-templates": "^0.5.7",
     "grunt-browserify": "~3.0.1",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-less": "~0.11.4",
@@ -50,14 +51,31 @@
   "scripts": {
     "start": "node server.js"
   },
+  "browser": {
+    "angular": "./lib/vendor/angular/angular.js",
+    "angular-resource": "./lib/vendor/angular/angular-resource.js",
+    "angular-animate": "./lib/vendor/angular/angular-animate.js",
+    "angular-sanitize": "./lib/vendor/angular/angular-sanitize.js",
+    "ui-router": "./lib/vendor/ui-router/angular-ui-router.js",
+    "ui-bootstrap": "./lib/vendor/ui-bootstrap/ui-bootstrap.js",
+    "jquery": "./lib/vendor/jquery/jquery.js"
+  },
+  "browserify-shim": {
+    "angular": "angular",
+    "jquery": "$"
+  },
   "deploy": {
-    "development": {
-      "user": "syadykin",
-      "servers": [ "localhost" ]
-    },
     "production": {
       "user": "bot",
-      "servers": [ "localhost" ]
+      "servers": [
+        "bot@localhost"
+      ]
+    },
+    "development": {
+      "user": "syadykin",
+      "servers": [
+        "syadykin@localhost"
+      ]
     }
   },
   "engines": {

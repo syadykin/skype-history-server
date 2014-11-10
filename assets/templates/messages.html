@@ -1,0 +1,10 @@
+<h1 ng-show="room.day">«{{ room.displayname }}» {{ current | date:"longDate" }} ({{ room.months[room.month][room.day] }} messages)</h1>
+
+<ul class="messages" ng-show="room.day">
+  <li ng-repeat="msg in messages">
+    <span class="time">[{{ msg.time }}]</span>
+    <span class="name" ng-show="messages[$index - 1].author === msg.author">…</span>
+    <span class="name" ng-show="messages[$index - 1].author !== msg.author">{{ msg.from_dispname }}:</span>
+    <span ng-bind-html="msg.body_xml|beautify"></span>
+  </li>
+</ul>

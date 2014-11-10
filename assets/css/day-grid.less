@@ -1,0 +1,43 @@
+@import "bootstrap/less/variables.less";
+
+.date-grid {
+  border-collapse: collapse;
+  margin: 5px;
+
+  th {
+    cursor: default;
+    color: @gray;
+    text-align: center;
+  }
+
+  td {
+    cursor: default;
+    color: @gray;
+
+    &.o {
+      color: @gray-lighter;
+    }
+
+    &.s {
+      background-color: @brand-primary;
+      &, a {
+        color: @body-bg;
+      }
+    }
+
+    &.c {
+      border: solid 1px @gray-lighter;
+    }
+  }
+
+  a, span {
+    display: block;
+    padding: 1px 5px;
+    text-align: right;
+  }
+
+  a:hover {
+    background-color: #eee;
+    text-decoration: none;
+  }
+}
