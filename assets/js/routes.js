@@ -43,5 +43,44 @@ module.exports = ['$stateProvider', '$urlRouterProvider',
             return Message.query($stateParams);
           }]
       }
+    })
+    .state('manageRooms', {
+      url: '/manage/rooms',
+      templateUrl: 't/manage_rooms.html',
+      controller: 'ManageRoomsCtrl',
+      resolve: {
+        rooms: ['ManageRoom', function(ManageRoom) {
+          return ManageRoom.query();
+        }],
+        chats: ['ManageChat', function(ManageChat) {
+          return ManageChat.query();
+        }]
+      }
+    })
+    .state('manageRoomsCreate', {
+      url: '/manage/rooms/create',
+      templateUrl: 't/manage_rooms_edit.html',
+      controller: 'ManageRoomsEditCtrl',
+      resolve: {
+        room: ['ManageRoom', function(ManageRoom) {
+          return new ManageRoom();
+        }],
+        chats: ['ManageChat', function(ManageChat) {
+          return ManageChat.query();
+        }]
+      }
+    })
+    .state('manageRoomsEdit', {
+      url: '/manage/rooms/edit/:id',
+      templateUrl: 't/manage_rooms_edit.html',
+      controller: 'ManageRoomsEditCtrl',
+      resolve: {
+        room: ['ManageRoom', '$stateParams', function(ManageRoom, $stateParams) {
+          return ManageRoom.get({id: $stateParams.id});
+        }],
+        chats: ['ManageChat', function(ManageChat) {
+          return ManageChat.query();
+        }]
+      }
     });
 }];

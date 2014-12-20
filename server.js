@@ -1,5 +1,7 @@
 var locomotive = require('locomotive'),
-    bootable = require('bootable');
+    cluster    = require('cluster'),
+    bootable   = require('bootable'),
+    workers    = require('os').cpus().length;
 
 locomotive.boot.httpSocketioServer = require('locomotive-http-socketio-server');
 
@@ -15,23 +17,30 @@ app.phase(locomotive.boot.views());
 // is particularly useful if your application handles upgrades from HTTP to
 // other protocols such as WebSocket.
 app.phase(require('bootable-environment')(__dirname + '/config/environments'));
+app.phase(bootable.initializers(__dirname + '/config/initializers'));
+app.phase(locomotive.boot.routes(__dirname + '/config/routes'));
 
 if (!module.parent) {
-  app.phase(bootable.initializers(__dirname + '/config/initializers'));
-  app.phase(locomotive.boot.routes(__dirname + '/config/routes'));
-  app.phase(locomotive.boot.httpSocketioServer(3000, '0.0.0.0'));
-  app.phase(require(__dirname + '/app/io/socket'));
+  if (cluster.isMaster) {
+    cluster.on('exit', function() {
+      cluster.fork();
+    });
+    for (var i = 0; i < workers; i++) cluster.fork();
+  } else {
+    app.phase(locomotive.boot.httpSocketioServer(3000, '0.0.0.0'));
+    app.phase(require(__dirname + '/app/io/socket'));
 
-  // Boot the application.  The phases registered above will be executed
-  // sequentially, resulting in a fully initialized server that is listening
-  // for requests.
-  app.boot(function(err) {
-      if (err) {
-          console.error(err.message);
-          console.error(err.stack);
-          return process.exit(-1);
-      }
-  });
+    // Boot the application.  The phases registered above will be executed
+    // sequentially, resulting in a fully initialized server that is listening
+    // for requests.
+    app.boot(function(err) {
+        if (err) {
+            console.error(err.message);
+            console.error(err.stack);
+            return process.exit(-1);
+        }
+    });
+  }
 }
 
 module.exports = app;

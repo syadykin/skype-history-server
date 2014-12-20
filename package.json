@@ -22,6 +22,7 @@
     "consolidate": "git+https://github.com/spcoder/consolidate.js.git#17dd0ac1b107468845802996236d10bdab26a521",
     "express": "3.x.x",
     "extend": "^2.0.0",
+    "grunt-mongo-migrations": "git+https://github.com/syadykin/grunt-mongo-migrations.git#19c326402100a839dcf3ca76c730f7f8840fd1c9",
     "http-errors": "^1.2.7",
     "less": "~1.7.3",
     "locomotive": "0.4.x",
@@ -29,6 +30,7 @@
     "locomotive-mongoose": "0.1.x",
     "method-override": "~2.1.3",
     "mongoose": "~3.8.14",
+    "mongoose-unique-validator": "^0.4.1",
     "passport": "~0.2.0",
     "passport-local": "~1.0.0",
     "requireindex": "~0.1.8",
@@ -45,6 +47,7 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-less": "~0.11.4",
     "grunt-contrib-watch": "~0.6.1",
+    "grunt-nodemon": "^0.3.0",
     "grunt-shipit": "^0.4.2",
     "uglifyify": "~2.5.0"
   },
@@ -58,7 +61,8 @@
     "angular-sanitize": "./lib/vendor/angular/angular-sanitize.js",
     "ui-router": "./lib/vendor/ui-router/angular-ui-router.js",
     "ui-bootstrap": "./lib/vendor/ui-bootstrap/ui-bootstrap.js",
-    "jquery": "./lib/vendor/jquery/jquery.js"
+    "jquery": "./lib/vendor/jquery/jquery.js",
+    "checklist-model": "./lib/vendor/checklist-model.js"
   },
   "browserify-shim": {
     "angular": "angular",

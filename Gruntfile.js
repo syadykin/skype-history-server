@@ -12,8 +12,26 @@ grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-browserify');
 grunt.loadNpmTasks('grunt-shipit');
 grunt.loadNpmTasks('grunt-angular-templates');
+grunt.loadNpmTasks('grunt-mongo-migrations');
+grunt.loadNpmTasks('grunt-nodemon');
 
 grunt.initConfig({
+  nodemon:{
+    dev: {
+      script: 'server.js',
+      options: {
+        ext: 'js',
+        cwd: __dirname,
+        ignore: ['assets/**', 'public/**']
+      }
+    }
+  },
+  migrations: {
+    path: __dirname + '/migrations',
+    template: grunt.file.read(__dirname + '/migrations/_template.js'),
+    mongo: process.env.MONGOHQ_URL || 'mongodb://localhost/skype-history',
+    ext: 'js'
+  },
   shipit: extend({
     options: {
       workspace: '/tmp/' + pkg.name,
@@ -25,20 +43,26 @@ grunt.initConfig({
   }, pkg.deploy),
   jshint: {
     options: {
-      globals: [ 'jQuery' ]
+      extensions: 'js',
+      ignores: [
+        'lib/vendor/**'
+      ]
     },
     all: [
       'Gruntfile.js',
-      'app/**/*.js',
-      'lib/**/*.js',
-      'config/**/*.js',
-      'assets/js/*.js'
+      'app/controller/**',
+      'app/io/**',
+      'app/models/**',
+      'app/models.js',
+      'lib/**',
+      'config/**',
+      'assets/js/**'
     ]
   },
   less: {
     development: {
       options: {
-        paths: ['assets/css', 'node_modules'],
+        paths: ['assets/css', 'lib/vendor', 'node_modules'],
       },
       files: {
         'public/assets/app.css': 'assets/css/app.less'
@@ -46,7 +70,7 @@ grunt.initConfig({
     },
     production: {
       options: {
-        paths: ['assets/css', 'node_modules'],
+        paths: ['assets/css', 'lib/vendor', 'node_modules'],
         compress: true,
         cleancss: true
       },

@@ -1,0 +1,24 @@
+<h2>
+  <span ng-hide="room._id">Create room</span>
+  <span ng-show="room._id">Edit room</span>
+</h2>
+<form ng-submit="save()">
+  <div class="form-group" ng-class="errors.displayname && 'has-error'">
+    <label class="control-label">Room name</label>
+    <input type="text" ng-model="room.displayname" class="form-control" />
+    <label class="control-label" ng-repeat="error in errors.displayname">{{ error }}</label>
+  </div>
+  <h3>Included chats</h3>
+  <div class="form-group" ng-class="errors.chatname && 'has-error'">
+    <div ng-repeat="chat in chats" ng-class="chat.displayname.length && 'chat-used'">
+      <input type="checkbox" checklist-model="room.chatname" checklist-value="chat._id">
+      <a href="" chatroom-messages="chat.chatname">{{ chat.chatname }}</a>
+      <small ng-show="chat.displayname.length">
+        (<span ng-repeat="name in chat.displayname">{{ name }}<span ng-show="!$last">, </span></span>)
+      </small>
+    </div>
+  </div>
+
+  <button class="btn btn-default" type="submit">Done</button>
+  <button class="btn btn-danger" type="button" ng-click="remove()" ng-show="room._id">Remove</button>
+</form>

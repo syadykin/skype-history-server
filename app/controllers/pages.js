@@ -1,10 +1,13 @@
+/*jslint node:true */
+'use strict';
+
 var Controller = require('locomotive').Controller,
     fs = require('fs'),
     PagesCtrl = new Controller();
 
 PagesCtrl.t = function() {
   var that = this,
-      path = this.param('path');
+      path = this.param('path').replace(/\.\./g, '');
   fs.readFile('assets/templates/' + path, function(err, content) {
     if (err) {
       that.__res.status(404).send('Not Found');

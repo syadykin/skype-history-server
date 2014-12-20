@@ -1,3 +1,3 @@
-module.exports = ['$resource', function($resource) {
-  return $resource('rooms/:displayname/:year/:month/:day');
+module.exports = ['Resource', function(Resource) {
+  return Resource('rooms/:displayname/:year/:month/:day');
 }];

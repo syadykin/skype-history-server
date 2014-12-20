@@ -1,5 +1,5 @@
-module.exports = ['$resource', function($resource) {
-  return $resource('search/:query/:displayname', {}, {
+module.exports = ['Resource', function(Resource) {
+  return Resource('search/:query/:displayname', {}, {
     query: {method: 'get'}
   });
 }];

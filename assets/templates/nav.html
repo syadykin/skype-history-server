@@ -70,6 +70,7 @@
       </form>
 
       <ul class="nav navbar-nav navbar-right">
+        <li><a ui-sref="manageRooms" ng-show="user.email">Manage chatrooms</a></li>
         <li><a ui-sref="logout" ng-show="user.email">Logout</a></li>
         <li><a ui-sref="login" ng-hide="user.email">Sign in</a></li>
       </ul>

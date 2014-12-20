@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-sm-5 col-sm-offset-1">
+    <h2>Present rooms</h2>
+    <ul>
+      <li ng-repeat="room in rooms">
+        <a href="" ui-sref="manageRoomsEdit({id: room._id})">{{ room.displayname }}</a>
+        <ul>
+          <li ng-repeat="chat in room.chatname">
+            <a href="" chatroom-messages="chat">{{ chat }}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <a href="" ui-sref="manageRoomsCreate()">Create room</a>
+  </div>
+  <div class="col-sm-5 col-sm-offset-1">
+    <h2>Not bound chats</h2>
+    <ul>
+      <li ng-repeat="chat in chats" ng-hide="chat.displayname.length">
+        <a href="" chatroom-messages="chat.chatname">{{ chat.chatname }}</a>
+      </li>
+    </ul>
+  </div>
+</div>

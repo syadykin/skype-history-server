@@ -1,6 +1,6 @@
 module.exports = [function() {
   return function(msg) {
-    var msgs = msg.split(/[\r\n]/g);
+    var msgs = (msg || '').split(/[\r\n]/g);
 
     msgs = msgs.map(function(m) {
       if (m.indexOf('&gt; ') === 0) {

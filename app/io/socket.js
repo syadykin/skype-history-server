@@ -1,3 +1,6 @@
+/*jslint node:true */
+'use strict';
+
 var Message = require('../models/message');
 
 module.exports = function() {
