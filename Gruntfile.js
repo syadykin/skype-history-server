@@ -165,7 +165,8 @@ grunt.shipit.on('updated', function () {
 
 grunt.registerTask('post-publish', function() {
   async.waterfall([
-    grunt.shipit.remote.bind(grunt.shipit, format('NODE_ENV=%s grunt migrate:all', grunt.shipit.stage)),
+    grunt.shipit.remote.bind(grunt.shipit, format('NODE_ENV=%s cd %s && grunt migrate:all',
+      grunt.shipit.currentPath, grunt.shipit.stage)),
     grunt.shipit.remote.bind(grunt.shipit, format('sudo restart %s || sudo start %s', pkg.name, pkg.name))
   ], this.async());
 });
