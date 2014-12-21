@@ -62,7 +62,8 @@
     "ui-router": "./lib/vendor/ui-router/angular-ui-router.js",
     "ui-bootstrap": "./lib/vendor/ui-bootstrap/ui-bootstrap.js",
     "jquery": "./lib/vendor/jquery/jquery.js",
-    "checklist-model": "./lib/vendor/checklist-model.js"
+    "checklist-model": "./lib/vendor/checklist-model.js",
+    "angular-smooth-scroll": "./lib/vendor/angular-smooth-scroll.js"
   },
   "browserify-shim": {
     "angular": "angular",

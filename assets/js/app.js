@@ -11,6 +11,7 @@ require('angular-sanitize');
 require('ui-bootstrap');
 require('ui-router');
 require('checklist-model');
+require('angular-smooth-scroll');
 require('./resources/resource');
 
 angular.module('app', [
@@ -19,6 +20,7 @@ angular.module('app', [
   'ui.bootstrap',
   'ui.router',
   'checklist-model',
+  'smoothScroll',
   'app.resource'
 ])
 

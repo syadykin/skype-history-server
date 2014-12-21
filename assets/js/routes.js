@@ -29,7 +29,10 @@ module.exports = ['$stateProvider', '$urlRouterProvider',
       controller: 'SearchCtrl'
     })
     .state('showMessages', {
-      url: '/room/:displayname/:year/:month/:day',
+      url: '/room/:displayname/:year/:month/:day/:line',
+      params: {
+        line: { value: null }
+      },
       templateUrl: 't/messages.html',
       controller: 'MessagesCtrl',
       resolve: {
