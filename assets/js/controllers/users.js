@@ -1,5 +1,9 @@
+/*jshint browser:true */
+/*globals module */
+
 module.exports = ['$scope', '$rootScope', '$state', 'User',
     function($scope, $rootScope, $state, User) {
+  'use strict';
 
   $scope.user = new User();
 

@@ -1,4 +1,9 @@
+/*jshint browser:true */
+/*globals module */
+
 module.exports = [function() {
+  'use strict';
+
   return function(msg) {
     var msgs = (msg || '').split(/[\r\n]/g);
 
@@ -9,6 +14,6 @@ module.exports = [function() {
       return m;
     });
 
-    return msgs.join("<br>");
+    return msgs.join('<br />');
   };
 }];

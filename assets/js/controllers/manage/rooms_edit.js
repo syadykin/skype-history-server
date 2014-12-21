@@ -1,5 +1,10 @@
+/*jshint browser:true */
+/*globals module */
+
 module.exports = ['$scope', '$state', 'room', 'chats',
     function($scope, $state, room, chats) {
+  'use strict';
+
   $scope.room = room;
   $scope.chats = chats;
 

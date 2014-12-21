@@ -1,3 +1,8 @@
-module.exports = ['Resource', function(Resource) {
-  return Resource('manage/rooms/:id', {id: '@_id'});
+/*jshint browser:true */
+/*globals module */
+
+module.exports = ['Resource', function($resource) {
+  'use strict';
+
+  return $resource('manage/rooms/:id', {id: '@_id'});
 }];

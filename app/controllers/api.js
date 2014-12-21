@@ -7,9 +7,7 @@ var Mongoose = require('mongoose'),
     async = require('async'),
     extend = require('extend'),
     sphinx = require('sphinxapi'),
-
     passport = require('../../lib/passport'),
-
     Controller = Locomotive.Controller,
     User = Mongoose.models.User,
     Chatroom = Mongoose.models.Chatroom,

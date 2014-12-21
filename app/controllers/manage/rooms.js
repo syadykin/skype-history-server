@@ -51,8 +51,7 @@ Ctrl.index = function() {
 };
 
 Ctrl.create = function() {
-  var that = this,
-      room = new Chatroom(this.req.body);
+  var room = new Chatroom(this.req.body);
   room.save(this.render.bind(this));
 };
 
@@ -73,7 +72,6 @@ Ctrl.update = function() {
 };
 
 Ctrl.destroy = function() {
-  var that = this;
   Chatroom.remove({_id: this.params('id')}, this.render.bind(this));
 };
 

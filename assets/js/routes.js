@@ -1,5 +1,10 @@
+/*jshint browser:true */
+/*globals module */
+
 module.exports = ['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
+  'use strict';
+
   $urlRouterProvider.otherwise('/');
 
   $stateProvider

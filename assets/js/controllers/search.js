@@ -1,5 +1,9 @@
+/*jshint browser:true */
+/*globals module */
+
 module.exports = ['$scope', '$rootScope', '$stateParams', '$state', 'Search',
     function($scope, $rootScope, $stateParams, $state, Search) {
+  'use strict';
 
   $rootScope.rooms.$promise.then(function() {
     Search.query($stateParams, function(data) {

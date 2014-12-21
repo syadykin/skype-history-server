@@ -1,4 +1,9 @@
+/*jshint browser:true */
+/*globals module */
+
 module.exports = ['$modal', function($modal) {
+  'use strict';
+
   return {
     restirict: 'A',
     scope: {

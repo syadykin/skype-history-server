@@ -1,3 +1,8 @@
-module.exports = ['Resource', function(Resource) {
-  return Resource('manage/chats/:chat_id/messages/:id');
+/*jshint browser:true */
+/*globals module */
+
+module.exports = ['Resource', function($resource) {
+  'use strict';
+
+  return $resource('manage/chats/:chat_id/messages/:id');
 }];

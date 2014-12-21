@@ -1,4 +1,9 @@
+/*jshint browser:true */
+/*globals module */
+
 module.exports = [function() {
+  'use strict';
+
   return function(msg, query) {
     query
       .sort(function(a, b) {

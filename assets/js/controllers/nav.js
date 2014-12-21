@@ -1,5 +1,10 @@
+/*jshint browser:true */
+/*globals module */
+
 module.exports = ['$scope', '$rootScope', '$state', '$stateParams', 'Room',
     function($scope, $rootScope, $state, $stateParams, Room) {
+  'use strict';
+
   $scope.current = new Date();
   $scope.menu = {
     room: false,
@@ -47,7 +52,7 @@ module.exports = ['$scope', '$rootScope', '$state', '$stateParams', 'Room',
   };
 
   $scope.setYear = function(y) {
-    $rootScope.room = Room.room({displayname: $scope.room.displayname, year: y}, function(room) {
+    $rootScope.room = Room.room({displayname: $scope.room.displayname, year: y}, function() {
       setMenu('month');
     });
   };

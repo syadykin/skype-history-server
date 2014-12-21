@@ -1,4 +1,10 @@
-module.exports = ['$scope', '$rootScope', 'messages', function($scope, $rootScope, messages) {
+/*jshint browser:true */
+/*globals module */
+
+module.exports = ['$scope', '$rootScope', 'messages',
+    function($scope, $rootScope, messages) {
+  'use strict';
+
   $scope.current = new Date();
   $rootScope.room.$promise.then(function() {
     if ($rootScope.room.day) {

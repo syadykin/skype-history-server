@@ -1,3 +1,9 @@
+/*jshint browser:true */
+/*globals require */
+
+(function(){
+'use strict';
+
 var angular = require('angular');
 
 require('angular-resource');
@@ -48,3 +54,5 @@ angular.module('app', [
   $rootScope.user = User.get();
   $rootScope.rooms = Room.all();
 }]);
+
+}());

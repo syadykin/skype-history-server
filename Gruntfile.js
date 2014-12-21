@@ -1,3 +1,6 @@
+/*jshint node:true */
+'use strict';
+
 var grunt = require('grunt'),
     async = require('async'),
     fs = require('fs'),
@@ -161,7 +164,10 @@ grunt.shipit.on('updated', function () {
 });
 
 grunt.registerTask('post-publish', function() {
-  grunt.shipit.remote(format('sudo restart %s || sudo start %s', pkg.name, pkg.name), this.async());
+  async.waterfall([
+    grunt.shipit.remote.bind(grunt.shipit, format('NODE_ENV=%s grunt migrate:all', grunt.shipit.stage)),
+    grunt.shipit.remote.bind(grunt.shipit, format('sudo restart %s || sudo start %s', pkg.name, pkg.name))
+  ], this.async());
 });
 
 grunt.shipit.on('published', function() {

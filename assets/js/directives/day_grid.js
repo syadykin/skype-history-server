@@ -1,4 +1,9 @@
+/*jshint browser:true */
+/*globals module */
+
 module.exports = [function() {
+  'use strict';
+
   return {
     restirict: 'E',
     scope: {
@@ -12,15 +17,12 @@ module.exports = [function() {
     link: function($scope) {
       $scope.$watch('date', function() {
         var today = new Date(),
-            timestamp = +today,
             date = new Date(+$scope.date),
             month = date.getMonth(),
-            day = (date.getDay() + 5) % 7, // day of the week starting from Monday
-            // days in month, there is a hack with 0 in day - month will decrease
-            // to what we actully need
+            // day of the week starting from Monday for first day of the month
+            day = ((new Date(date.getFullYear(), month, 1)).getDay() + 6) % 7,
             days = (new Date(date.getFullYear(), month + 1, 0)).getDate(),
             prevDays = (new Date(date.getFullYear(), month, 0)).getDate(),
-            nextDays = (new Date(date.getFullYear(), month + 2, 0)).getDate(),
             weeks = Math.ceil((days + day) / 7), // weeks in month
             current = today.getFullYear() === date.getFullYear() &&
                       today.getMonth() === date.getMonth(),
@@ -28,7 +30,7 @@ module.exports = [function() {
             keys = Object.keys(exists).map(function(k) { return parseInt(k, 10); }),
             w, d, c = [];
 
-        day = 1 - day;
+       day = 1 - day;
 
         for (w = 0; w < weeks; w++) {
           c[w] = [];
