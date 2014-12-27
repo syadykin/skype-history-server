@@ -189,7 +189,7 @@ ApiCtrl.search = function() {
         query: result.words.map(function(w) { return w.word; }),
         hits: result.total_found,
         matches: result.matches.map(function(m) {
-          return extend(m.attrs, {score: m.weight});
+          return extend(m.attrs, {score: m.weight, id: m.id});
         })
       });
     }

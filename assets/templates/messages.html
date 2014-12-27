@@ -1,8 +1,8 @@
 <h1 ng-show="room.day">«{{ room.displayname }}» {{ current | date:"longDate" }} ({{ room.months[room.month][room.day] }} messages)</h1>
 
 <ul class="messages" ng-show="room.day">
-  <li id="m{{ $index }}" ng-repeat="msg in messages" ng-class="line === $index && 'bg-success'">
-    <a href="" ui-sref="showMessages({displayname: room.displayname, year: room.year, month: room.month, day: room.day, line: $index})" class="time">[{{ msg.time }}]</a>
+  <li id="m{{ msg.id }}" ng-repeat="msg in messages" ng-class="line === msg.id && 'bg-success'">
+    <a href="" ui-sref="showMessages({displayname: room.displayname, year: room.year, month: room.month, day: room.day, line: msg.id})" class="time">[{{ msg.time }}]</a>
     <span class="name" ng-show="messages[$index - 1].author === msg.author">…</span>
     <span class="name" ng-show="messages[$index - 1].author !== msg.author">{{ msg.from_dispname }}:</span>
     <span ng-bind-html="msg.body_xml|beautify"></span>

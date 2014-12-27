@@ -24,13 +24,14 @@ module.exports = ['$scope', '$rootScope', '$stateParams', '$state', 'Search',
     });
   });
 
-  $scope.go = function(room, date) {
+  $scope.go = function(room, date, id) {
     date = date.split('-');
     $state.go('showMessages', {
       displayname: room,
       year: date[0],
       month: date[1],
-      day: date[2]
+      day: date[2],
+      line: id
     });
   };
 }];
